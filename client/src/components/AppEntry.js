@@ -3,6 +3,18 @@ import { NotePreview } from './NotePreview.js'
 import api from '../config';
 
 export const AppEntry = () => {
+
+  async function verifyToken(){
+    console.log("verifying token...");
+    const resp = await api.post('/verify', {token: localStorage.getItem("token")});
+    console.log(resp);
+    if(!resp.data.success){
+      window.location.href = "/";
+    }
+  }
+  
+
+  verifyToken();
   
   function isEmptyOrSpaces(str){
     return str === null || str.match(/^ *$/) !== null;
@@ -12,14 +24,7 @@ export const AppEntry = () => {
     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` }
   };
 
-  async function verifyToken(){
-    const resp = await api.post('/verify', config);
-    console.log("verifying token...");
-    console.log(resp);
-  }
-  
 
-  verifyToken();
 
   const [userInfo, setUserInfo] = useState([]);
   const [notes, setNotes] = useState([]);

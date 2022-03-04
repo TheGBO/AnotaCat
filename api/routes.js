@@ -44,10 +44,26 @@ router.post('/login', async (req, res) => {
     }
 });
 
-router.post('/verify', authentication, async (req, res) => {
-    console.log(req.payload.id);
-    if(req.payload.id !== undefined) return res.json({success:true});
-    return res.json({success:false});
+router.post('/verify', async (req, res) => {
+    try {
+        const token = req.body.token
+        console.log(token);
+        jwt.verify(token, process.env.TOKEN_SECRET, (err, dec) => {
+            if(err){
+                return res.status(200).json({
+                    success:false
+                });
+            }
+            return res.status(200).json({
+                success:true
+            });
+        });
+    } catch (error) {
+        console.log(error.message);
+        return res.status(200).json({
+            success:false
+        });
+    }
 });
 
 
