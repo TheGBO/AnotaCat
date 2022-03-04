@@ -42,7 +42,7 @@ const LoginPage = (props) => {
                 <FaCat/>
                 AnotaCat
             </h1>
-            <input type='email' placeholder='email' id='email' className='login-input'></input>
+            <input type='email' placeholder='email or username' id='email' className='login-input'></input>
             <input type='password' placeholder='password' id='pass' className='login-input'></input>
             <button className='login-btn' onClick={() => {LoginOrRegister()}}>{props.type}</button>
         </div>

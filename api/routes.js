@@ -44,6 +44,13 @@ router.post('/login', async (req, res) => {
     }
 });
 
+router.post('/verify', authentication, async (req, res) => {
+    console.log(req.payload.id);
+    if(req.payload.id !== undefined) return res.json({success:true});
+    return res.json({success:false});
+});
+
+
 //users
 router.post('/user', async (req, res) => {
     try {
@@ -61,7 +68,6 @@ router.post('/user', async (req, res) => {
 router.get('/user', authentication, async (req, res) => {
     try {
         const retreivedUser = await pool.query(`SELECT * FROM USERS WHERE id = $1`, [req.payload.id]);
-        console.log(retreivedUser)
         res.json({success:true,user:retreivedUser.rows[0]});
     } catch (error) {
         console.error(error.message);
@@ -79,6 +85,7 @@ router.post('/note', authentication, async (req, res) => {
         [sanitizer.sanitize(content), req.payload.id]);
         res.json({success:true, note:newNote.rows[0]});
     } catch (error) {
+        console.error(error.message);
         res.status(500).json({
             success:false
         });

@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300&family=Smooch+Sans:wght@100&display=swap');
 
+*{
+    word-wrap: break-word;
+}
+
 .wrapper{
     height: 100vh;
     width: 100%;
@@ -124,9 +128,10 @@ body{
     white-space: pre-wrap;
     resize: none;
     word-break: break-word;
-    width: 90%;
-    height: 90%;
-    padding: 15px;
+    width: max-content;
+    float: left;
+    width: 100%;
+    height: 300px;
     font-size: 22px;
     outline: none;
     border: none;
@@ -177,6 +182,7 @@ body{
     background-color: #4b4d68;
     padding: 15px 0 15px;
     border-radius: 5px;
+    margin-bottom: 5px;
 }
 
 .ntp-wrp{
@@ -204,4 +210,8 @@ body{
 
 .create-note-menu{
     margin-top: 150px;
+}
+
+#title{
+    height: 30px;
 }
