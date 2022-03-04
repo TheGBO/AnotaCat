@@ -12,16 +12,16 @@ router.post('/login', async (req, res) => {
         const {email, pass} = req.body;
         const user = await pool.query(`SELECT * FROM users WHERE email = $1`,[email]);
         if(user.rows.length == 0){
-            return res.status(401).json({success:false});
+            return res.status(200).json({success:false});
         }
         if(!pass){
-            return res.status(401).json({
+            return res.status(200).json({
                 success:false
             });
         }
         const validPassword = await bcrypt.compare(pass, user.rows[0].pass);
         if(!validPassword){
-            return res.status(401).json({
+            return res.status(200).json({
                 success:false
             });
         }
@@ -30,7 +30,7 @@ router.post('/login', async (req, res) => {
             id:user.rows[0].id,
             email:user.rows[0].email,
         };
-        const userToken = await jwt.sign(userTokenObj, process.env.TOKEN_SECRET, {expiresIn:'30m'});
+        const userToken = await jwt.sign(userTokenObj, process.env.TOKEN_SECRET, {expiresIn:'30d'});
 
         return res.status(200).json({
             token:userToken,
@@ -49,7 +49,20 @@ router.post('/user', async (req, res) => {
     try {
         const hashedPass = await bcrypt.hash(req.body.pass, 10);
         const newUser = await pool.query(`INSERT INTO users(email, pass) VALUES($1, $2) RETURNING *`, [req.body.email, hashedPass]);
-        res.json({user:newUser.rows[0]});
+        res.json({success:true,user:newUser.rows[0]});
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({
+            success:false
+        });
+    }
+});
+
+router.get('/user', authentication, async (req, res) => {
+    try {
+        const retreivedUser = await pool.query(`SELECT * FROM USERS WHERE id = $1`, [req.payload.id]);
+        console.log(retreivedUser)
+        res.json({success:true,user:retreivedUser.rows[0]});
     } catch (error) {
         console.error(error.message);
         res.status(500).json({

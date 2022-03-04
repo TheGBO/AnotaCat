@@ -12,3 +12,5 @@ CREATE TABLE notes(
     owid INT NOT NULL,
     content TEXT NOT NULL
 );
+
+ALTER TABLE notes ADD title VARCHAR(255) NOT NULL;
