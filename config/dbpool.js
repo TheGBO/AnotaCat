@@ -1,10 +1,10 @@
 const Pool = require('pg').Pool;
 
 const pool = new Pool({
-    user: process.env.DB_USER || "postgres",
-    password: process.env.DB_PASS || "123",
-    host: process.env.DB_HOST || "localhost",
-    database: process.env.DB_NAME || "anotacat",
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
+    host: process.env.DB_HOST,
+    database: process.env.DB_NAME,
     port:5432
 });
 
