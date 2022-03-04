@@ -4,10 +4,11 @@ const cors = require('cors');
 const routes = require('./api/routes');
 const path = require('path');
 
-require('dotenv').config({path:"./config/.env"});
 app.use(cors());
 app.use(express.json());
 app.use('/api', routes);
+
+console.log(process.env);
 
 const port = process.env.PORT || 5000;
 
